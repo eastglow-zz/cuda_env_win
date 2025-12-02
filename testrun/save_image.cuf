@@ -1,0 +1,36 @@
+program main
+  use cudafor
+  implicit none
+  integer, parameter :: w = 256, h = 512
+  integer :: i, j, r, g, b
+  ! 2D 배열 (이미지 데이터)
+  integer :: image(w, h)
+
+  ! 1. 데이터 생성 (그라데이션)
+  do j = 1, h
+     do i = 1, w
+        image(i, j) = int((real(i)/real(w)) * 255.0)
+     end do
+  end do
+
+  ! 2. PPM 파일 쓰기 (아주 간단함)
+  open(unit=10, file='output.ppm', status='replace', action='write')
+  
+  ! 헤더 작성 (P3: 텍스트모드, 가로, 세로, 최대색상값)
+  write(10, '(A)') 'P3'
+  write(10, *) w, h
+  write(10, *) 255
+
+  ! 픽셀 데이터 쓰기 (RGB 순서)
+  do j = 1, h
+     do i = 1, w
+        r = image(i, j)
+        g = image(i, j) ! 흑백이므로 RGB 동일
+        b = image(i, j)
+        write(10, *) r, g, b
+     end do
+  end do
+  
+  close(10)
+  print *, "Image saved: output.ppm"
+end program main

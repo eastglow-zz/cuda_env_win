@@ -1,0 +1,21 @@
+{
+    "name": "My CUDA Fortran Env",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    // GPU 사용 활성화 (가장 중요)
+    "runArgs": [
+        "--gpus", "all"
+    ],
+    // 컨테이너 접속 시 VS Code에 자동으로 설치될 확장 프로그램
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "fortran-lang.linter-gfortran",
+                "NVIDIA.nsight-vscode-edition",
+                "ms-python.python" 
+            ]
+        }
+    },
+    "remoteUser": "root"
+}
